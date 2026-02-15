@@ -41,6 +41,7 @@ input[type=text] {width:85%; margin-top:5px; border-radius:10px; padding:5px;}
 .bottom-nav {position:fixed; bottom:0; left:0; width:100%; display:flex; justify-content:space-around; background:#5e35b1; padding:10px 0; box-shadow:0 -4px 10px rgba(0,0,0,0.2); z-index:200;}
 .bottom-nav i {color:#fff; font-size:1.5em; cursor:pointer; transition:0.2s;}
 .bottom-nav i:hover {transform:scale(1.2);}
+.back-btn {background:#333; color:#fff;}
 @keyframes fadeIn {from {opacity:0; transform:translateY(20px);} to {opacity:1; transform:translateY(0);}}
 </style>
 </head>
@@ -52,18 +53,19 @@ input[type=text] {width:85%; margin-top:5px; border-radius:10px; padding:5px;}
 </header>
 
 <div class="container" id="mainPages">
-  <div class="page-card" id="afriqueCard" onclick="openSection('afrique')"><i class="fas fa-globe-africa"></i>🌍 Afrique de l’Ouest</div>
-  <div class="page-card" id="royaumesCard" onclick="openSection('royaumes')"><i class="fas fa-chess-rook"></i>Royaumes & Empires</div>
-  <div class="page-card" id="decolonisationCard" onclick="openSection('decolonisation')"><i class="fas fa-landmark"></i>Décolonisation</div>
-  <div class="page-card" id="revolutionsCard" onclick="openSection('revolutions')"><i class="fas fa-flag"></i>Révolutions</div>
-  <div class="page-card" id="crimeCard" onclick="openSection('crime')"><i class="fas fa-user-secret"></i>TRUE CRIME & MYSTÈRES</div>
+  <div class="page-card" id="afriqueCard" onclick="openSection('afrique','#f06292')"><i class="fas fa-globe-africa"></i>🌍 Afrique de l’Ouest</div>
+  <div class="page-card" id="royaumesCard" onclick="openSection('royaumes','#26a69a')"><i class="fas fa-chess-rook"></i>Royaumes & Empires</div>
+  <div class="page-card" id="decolonisationCard" onclick="openSection('decolonisation','#ffb74d')"><i class="fas fa-landmark"></i>Décolonisation</div>
+  <div class="page-card" id="revolutionsCard" onclick="openSection('revolutions','#9575cd')"><i class="fas fa-flag"></i>Révolutions</div>
+  <div class="page-card" id="crimeCard" onclick="openSection('crime','#ff7043')"><i class="fas fa-user-secret"></i>TRUE CRIME & MYSTÈRES</div>
 </div>
 
 <div id="modal">
-  <div class="content">
+  <div class="content" id="modalContent">
     <span class="close" onclick="closeModal()">&times;</span>
     <div class="tab-bar" id="tabBar"></div>
     <h2 id="modalTitle"></h2>
+    <button class="btn back-btn" id="backBtn" onclick="goBack()">⬅️ Retour</button>
     <div id="modalBody"></div>
   </div>
 </div>
@@ -77,7 +79,7 @@ input[type=text] {width:85%; margin-top:5px; border-radius:10px; padding:5px;}
 </div>
 
 <script>
-let mediaStore={};
+let mediaStore={}, historyStack=[];
 const sections = {
   afrique:['Bénin','Burkina Faso','Cap-Vert','Côte d’Ivoire','Gambie','Ghana','Guinée','Guinée-Bissau','Liberia','Mali','Niger','Nigeria','Sénégal','Sierra Leone','Togo'],
   royaumes:['Épisode 1','Épisode 2','Épisode 3','Épisode 4','Épisode 5'],
@@ -93,18 +95,20 @@ function buildTabs(){
   Object.keys(sections).forEach(sec=>{
     const tab=document.createElement('div'); tab.className='tab';
     tab.style.background=sectionColors[sec]; tab.innerText=sec.toUpperCase();
-    tab.onclick=()=>openSection(sec); tabBar.appendChild(tab);
+    tab.onclick=()=>openSection(sec,sectionColors[sec]); tabBar.appendChild(tab);
   });
 }
 
-function openSection(section){
-  buildTabs(); highlightTab(section); document.getElementById('modalTitle').innerText = section;
+function openSection(section,color){
+  historyStack.push({func:openSection,args:[section,color]});
+  buildTabs(); highlightTab(section); document.getElementById('modalTitle').innerText=section;
+  document.getElementById('modalContent').style.background=color;
   const container=document.getElementById('modalBody'); container.innerHTML="";
   sections[section].forEach((item,index)=>{
     const div=document.createElement('div'); div.className='episode-card'; div.innerText=item;
     div.style.background=episodeColors[index%episodeColors.length];
-    if(section==='afrique'){ div.onclick=()=>openEpisodes(item); }
-    else{ div.onclick=()=>openMediaPage(item); }
+    if(section==='afrique'){ div.onclick=()=>openEpisodes(item,color); }
+    else{ div.onclick=()=>openMediaPage(item,color); }
     container.appendChild(div);
   });
   document.getElementById('modal').classList.add('show');
@@ -112,8 +116,10 @@ function openSection(section){
 
 function highlightTab(section){ document.querySelectorAll('.tab').forEach(tab=>{tab.classList.remove('active'); if(tab.innerText.toLowerCase()===section) tab.classList.add('active');}); }
 
-function openEpisodes(country){
+function openEpisodes(country,color){
+  historyStack.push({func:openEpisodes,args:[country,color]});
   document.getElementById('modalTitle').innerText = country;
+  document.getElementById('modalContent').style.background=color;
   const container=document.getElementById('modalBody'); container.innerHTML="";
   if(!mediaStore[country]) mediaStore[country]={episodes:['Épisode 1','Épisode 2','Épisode 3','Épisode 4','Épisode 5']};
   mediaStore[country].episodes.forEach((ep,i)=>{
@@ -122,23 +128,31 @@ function openEpisodes(country){
     div.innerHTML=`${ep}<br>
       <button class="btn" onclick="moveEpisode('${country}',${i},-1)">⬆️</button>
       <button class="btn" onclick="moveEpisode('${country}',${i},1)">⬇️</button>
-      <button class="btn" onclick="openMediaPage('${country} - ${ep}')">Modifier Médias</button>`;
+      <button class="btn" onclick="openMediaPage('${country} - ${ep}','${color}')">Modifier Médias</button>`;
     container.appendChild(div);
   });
+}
+
+function goBack(){
+  historyStack.pop(); 
+  if(historyStack.length>0){
+    const last=historyStack.pop();
+    last.func(...last.args);
+  } else closeModal();
 }
 
 function moveEpisode(title,index,dir){
   const eps=mediaStore[title].episodes; if(!eps) return;
   const newIndex=index+dir; if(newIndex<0||newIndex>=eps.length) return;
   [eps[index],eps[newIndex]]=[eps[newIndex],eps[index]];
-  renderEpisodes(title,eps);
+  openEpisodes(title,'#fff'); // refresh
 }
 
-function renderEpisodes(title,episodes){ openEpisodes(title); }
-
-function openMediaPage(title){
+function openMediaPage(title,color){
+  historyStack.push({func:openMediaPage,args:[title,color]});
   if(!mediaStore[title]) mediaStore[title]={videos:[],images:[]};
   const container=document.getElementById('modalBody');
+  document.getElementById('modalContent').style.background=color;
   container.innerHTML=`<h2>${title}</h2>
     <button class="btn" onclick="document.getElementById('videoInput').click()">Ajouter Vidéo</button>
     <input type="file" id="videoInput" accept="video/*" onchange="addMedia('${title}','video',this.files[0])">
@@ -186,4 +200,4 @@ function closeModal(){ const modal=document.getElementById('modal'); modal.class
 </script>
 
 </body>
-                                                                                                                                </html>
+</html>
