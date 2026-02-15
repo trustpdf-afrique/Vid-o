@@ -26,22 +26,16 @@ header h2 {font-size:1em; letter-spacing:2px; margin:0; font-weight:normal; opac
 .media-card:hover {transform:scale(1.03);}
 .btn {display:block; margin:5px auto; padding:8px 15px; font-size:0.9em; background:linear-gradient(90deg,#8e24aa,#d81b60); color:#fff; border:none; border-radius:15px; font-weight:bold; cursor:pointer; box-shadow:0 4px 12px rgba(0,0,0,0.25);}
 .btn:hover {background:linear-gradient(90deg,#d81b60,#8e24aa);}
+.back-btn {background:#333; color:#fff;}
 #modal {display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); overflow:auto; padding:10px; z-index:100; opacity:0; transition:opacity 0.4s;}
 #modal.show {display:block; opacity:1;}
 #modal .content {background:#fff; border-radius:25px; padding:20px; margin:50px auto; max-width:95%; position:relative; box-shadow:0 6px 20px rgba(0,0,0,0.4); transform:translateY(50px); transition:transform 0.4s;}
 #modal.show .content {transform:translateY(0);}
 #modal .close {position:absolute; top:10px; right:20px; font-size:2em; cursor:pointer; color:#333;}
-.tab-bar {display:flex; flex-wrap:wrap; justify-content:space-around; margin-bottom:15px; opacity:0; animation:fadeIn 0.5s forwards;}
-.tab {padding:10px 15px; border-radius:15px; cursor:pointer; color:#fff; font-weight:bold; flex:1; text-align:center; margin:2px;}
-.tab.active {box-shadow:0 4px 12px rgba(0,0,0,0.3); transform:scale(1.05);}
 h2 {text-align:center; color:#5e35b1; margin-bottom:20px;}
 .media-item {text-align:center; margin:10px 0; opacity:0; animation:fadeIn 0.6s forwards;}
 video, img {width:90%; border-radius:15px; margin-top:5px;}
 input[type=text] {width:85%; margin-top:5px; border-radius:10px; padding:5px;}
-.bottom-nav {position:fixed; bottom:0; left:0; width:100%; display:flex; justify-content:space-around; background:#5e35b1; padding:10px 0; box-shadow:0 -4px 10px rgba(0,0,0,0.2); z-index:200;}
-.bottom-nav i {color:#fff; font-size:1.5em; cursor:pointer; transition:0.2s;}
-.bottom-nav i:hover {transform:scale(1.2);}
-.back-btn {background:#333; color:#fff;}
 @keyframes fadeIn {from {opacity:0; transform:translateY(20px);} to {opacity:1; transform:translateY(0);}}
 </style>
 </head>
@@ -53,113 +47,64 @@ input[type=text] {width:85%; margin-top:5px; border-radius:10px; padding:5px;}
 </header>
 
 <div class="container" id="mainPages">
-  <div class="page-card" id="afriqueCard" onclick="openSection('afrique','#f06292')"><i class="fas fa-globe-africa"></i>🌍 Afrique de l’Ouest</div>
-  <div class="page-card" id="royaumesCard" onclick="openSection('royaumes','#26a69a')"><i class="fas fa-chess-rook"></i>Royaumes & Empires</div>
-  <div class="page-card" id="decolonisationCard" onclick="openSection('decolonisation','#ffb74d')"><i class="fas fa-landmark"></i>Décolonisation</div>
-  <div class="page-card" id="revolutionsCard" onclick="openSection('revolutions','#9575cd')"><i class="fas fa-flag"></i>Révolutions</div>
-  <div class="page-card" id="crimeCard" onclick="openSection('crime','#ff7043')"><i class="fas fa-user-secret"></i>TRUE CRIME & MYSTÈRES</div>
+  <div class="page-card" style="background:#f06292" onclick="openSection('Afrique de l’Ouest','#f06292')"><i class="fas fa-globe-africa"></i>🌍 Afrique de l’Ouest</div>
+  <div class="page-card" style="background:#26a69a" onclick="openSection('Royaumes & Empires','#26a69a')"><i class="fas fa-chess-rook"></i>Royaumes & Empires</div>
+  <div class="page-card" style="background:#ffb74d" onclick="openSection('Décolonisation','#ffb74d')"><i class="fas fa-landmark"></i>Décolonisation</div>
+  <div class="page-card" style="background:#9575cd" onclick="openSection('Révolutions','#9575cd')"><i class="fas fa-flag"></i>Révolutions</div>
+  <div class="page-card" style="background:#ff7043" onclick="openSection('TRUE CRIME & MYSTÈRES','#ff7043')"><i class="fas fa-user-secret"></i>TRUE CRIME & MYSTÈRES</div>
 </div>
 
 <div id="modal">
   <div class="content" id="modalContent">
     <span class="close" onclick="closeModal()">&times;</span>
-    <div class="tab-bar" id="tabBar"></div>
-    <h2 id="modalTitle"></h2>
     <button class="btn back-btn" id="backBtn" onclick="goBack()">⬅️ Retour</button>
+    <h2 id="modalTitle"></h2>
     <div id="modalBody"></div>
   </div>
 </div>
 
-<div class="bottom-nav">
-  <i class="fas fa-home" onclick="closeModal()"></i>
-  <i class="fas fa-folder-open"></i>
-  <i class="fas fa-video"></i>
-  <i class="fas fa-image"></i>
-  <i class="fas fa-cog"></i>
-</div>
-
 <script>
-let mediaStore={}, historyStack=[];
+let mediaStore={};
+let historyStack=[];
 const sections = {
-  afrique:['Bénin','Burkina Faso','Cap-Vert','Côte d’Ivoire','Gambie','Ghana','Guinée','Guinée-Bissau','Liberia','Mali','Niger','Nigeria','Sénégal','Sierra Leone','Togo'],
-  royaumes:['Épisode 1','Épisode 2','Épisode 3','Épisode 4','Épisode 5'],
-  decolonisation:['Épisode 1','Épisode 2','Épisode 3','Épisode 4','Épisode 5'],
-  revolutions:['Épisode 1','Épisode 2','Épisode 3','Épisode 4','Épisode 5'],
-  crime:['🔪 Crimes Célèbres','👻 Mystères Non Résolus','🕵🏾 Disparitions Étranges','🏚️ Histoires Terrifiantes','📰 Affaires Insolites']
+  'Afrique de l’Ouest':['Bénin','Burkina Faso','Cap-Vert','Côte d’Ivoire','Gambie','Ghana','Guinée','Guinée-Bissau','Liberia','Mali','Niger','Nigeria','Sénégal','Sierra Leone','Togo'],
+  'Royaumes & Empires':['Épisode 1','Épisode 2','Épisode 3','Épisode 4','Épisode 5'],
+  'Décolonisation':['Épisode 1','Épisode 2','Épisode 3','Épisode 4','Épisode 5'],
+  'Révolutions':['Épisode 1','Épisode 2','Épisode 3','Épisode 4','Épisode 5'],
+  'TRUE CRIME & MYSTÈRES':['🔪 Crimes Célèbres','👻 Mystères Non Résolus','🕵🏾 Disparitions Étranges','🏚️ Histoires Terrifiantes','📰 Affaires Insolites']
 };
-const sectionColors={afrique:'#f06292',royaumes:'#26a69a',decolonisation:'#ffb74d',revolutions:'#9575cd',crime:'#ff7043'};
 const episodeColors=['#ff8a65','#4db6ac','#ba68c8','#ffd54f','#7986cb','#f06292','#26a69a','#ff7043','#9575cd','#d32f2f'];
 
-function buildTabs(){
-  const tabBar=document.getElementById('tabBar'); tabBar.innerHTML='';
-  Object.keys(sections).forEach(sec=>{
-    const tab=document.createElement('div'); tab.className='tab';
-    tab.style.background=sectionColors[sec]; tab.innerText=sec.toUpperCase();
-    tab.onclick=()=>openSection(sec,sectionColors[sec]); tabBar.appendChild(tab);
-  });
-}
-
-function openSection(section,color){
-  historyStack.push({func:openSection,args:[section,color]});
-  buildTabs(); highlightTab(section); document.getElementById('modalTitle').innerText=section;
+function openSection(title,color){
+  historyStack.push(()=>showMainPages());
+  document.getElementById('modalTitle').innerText=title;
   document.getElementById('modalContent').style.background=color;
   const container=document.getElementById('modalBody'); container.innerHTML="";
-  sections[section].forEach((item,index)=>{
-    const div=document.createElement('div'); div.className='episode-card'; div.innerText=item;
-    div.style.background=episodeColors[index%episodeColors.length];
-    if(section==='afrique'){ div.onclick=()=>openEpisodes(item,color); }
-    else{ div.onclick=()=>openMediaPage(item,color); }
+  sections[title].forEach((ep,i)=>{
+    const div=document.createElement('div'); div.className='episode-card';
+    div.style.background=episodeColors[i%episodeColors.length];
+    div.innerText=ep;
+    div.onclick=()=>openEpisodePage(title,ep,color);
     container.appendChild(div);
   });
+  document.getElementById('mainPages').style.display='none';
   document.getElementById('modal').classList.add('show');
 }
 
-function highlightTab(section){ document.querySelectorAll('.tab').forEach(tab=>{tab.classList.remove('active'); if(tab.innerText.toLowerCase()===section) tab.classList.add('active');}); }
-
-function openEpisodes(country,color){
-  historyStack.push({func:openEpisodes,args:[country,color]});
-  document.getElementById('modalTitle').innerText = country;
+function openEpisodePage(section,episode,color){
+  historyStack.push(()=>openSection(section,color));
+  document.getElementById('modalTitle').innerText=episode;
   document.getElementById('modalContent').style.background=color;
   const container=document.getElementById('modalBody'); container.innerHTML="";
-  if(!mediaStore[country]) mediaStore[country]={episodes:['Épisode 1','Épisode 2','Épisode 3','Épisode 4','Épisode 5']};
-  mediaStore[country].episodes.forEach((ep,i)=>{
-    const div=document.createElement('div'); div.className='episode-card';
-    div.style.background=episodeColors[i%episodeColors.length];
-    div.innerHTML=`${ep}<br>
-      <button class="btn" onclick="moveEpisode('${country}',${i},-1)">⬆️</button>
-      <button class="btn" onclick="moveEpisode('${country}',${i},1)">⬇️</button>
-      <button class="btn" onclick="openMediaPage('${country} - ${ep}','${color}')">Modifier Médias</button>`;
-    container.appendChild(div);
-  });
-}
-
-function goBack(){
-  historyStack.pop(); 
-  if(historyStack.length>0){
-    const last=historyStack.pop();
-    last.func(...last.args);
-  } else closeModal();
-}
-
-function moveEpisode(title,index,dir){
-  const eps=mediaStore[title].episodes; if(!eps) return;
-  const newIndex=index+dir; if(newIndex<0||newIndex>=eps.length) return;
-  [eps[index],eps[newIndex]]=[eps[newIndex],eps[index]];
-  openEpisodes(title,'#fff'); // refresh
-}
-
-function openMediaPage(title,color){
-  historyStack.push({func:openMediaPage,args:[title,color]});
-  if(!mediaStore[title]) mediaStore[title]={videos:[],images:[]};
-  const container=document.getElementById('modalBody');
-  document.getElementById('modalContent').style.background=color;
-  container.innerHTML=`<h2>${title}</h2>
+  if(!mediaStore[episode]) mediaStore[episode]={videos:[],images:[]};
+  container.innerHTML=`
     <button class="btn" onclick="document.getElementById('videoInput').click()">Ajouter Vidéo</button>
-    <input type="file" id="videoInput" accept="video/*" onchange="addMedia('${title}','video',this.files[0])">
+    <input type="file" id="videoInput" accept="video/*" onchange="addMedia('${episode}','video',this.files[0])">
     <button class="btn" onclick="document.getElementById('imageInput').click()">Ajouter Image</button>
-    <input type="file" id="imageInput" accept="image/*" onchange="addMedia('${title}','image',this.files[0])">
-    <div id="mediaList"></div>`;
-  renderMedia(title);
+    <input type="file" id="imageInput" accept="image/*" onchange="addMedia('${episode}','image',this.files[0])">
+    <div id="mediaList"></div>
+  `;
+  renderMedia(episode);
 }
 
 function addMedia(title,type,file){ if(file){ mediaStore[title][type+'s'].push(file); renderMedia(title); } }
@@ -169,14 +114,14 @@ function renderMedia(title){
   mediaStore[title].videos.forEach((vid,i)=>{
     const div=document.createElement('div'); div.className='media-item';
     div.innerHTML=`<video controls src="${URL.createObjectURL(vid)}"></video><br>
-      <input type="text" placeholder="Titre vidéo" value="${vid.name}" onchange="renameMedia('${title}','video',${i},this.value)">
+      <input type="text" value="${vid.name}" onchange="renameMedia('${title}','video',${i},this.value)">
       <button class="btn" onclick="removeMedia('${title}','video',${i})">Retirer Vidéo</button>`;
     container.appendChild(div);
   });
   mediaStore[title].images.forEach((img,i)=>{
     const div=document.createElement('div'); div.className='media-item';
     div.innerHTML=`<img src="${URL.createObjectURL(img)}"><br>
-      <input type="text" placeholder="Titre image" value="${img.name}" onchange="renameMedia('${title}','image',${i},this.value)">
+      <input type="text" value="${img.name}" onchange="renameMedia('${title}','image',${i},this.value)">
       <button class="btn" onclick="removeMedia('${title}','image',${i})">Retirer Image</button>`;
     container.appendChild(div);
   });
@@ -190,13 +135,20 @@ function renameMedia(title,type,index,newName){
 }
 
 function removeMedia(title,type,index){
-  const item=mediaStore[title][type+'s'][index];
-  const url=URL.createObjectURL(item); const a=document.createElement('a'); a.href=url;
-  a.download=(type==='video'?'video.mp4':'image.png'); a.click();
   mediaStore[title][type+'s'].splice(index,1); renderMedia(title);
 }
 
-function closeModal(){ const modal=document.getElementById('modal'); modal.classList.remove('show'); setTimeout(()=>{modal.style.display='none';},400);}
+function goBack(){
+  if(historyStack.length>0){ const last=historyStack.pop(); last(); }
+  else showMainPages();
+}
+
+function showMainPages(){
+  document.getElementById('mainPages').style.display='flex';
+  document.getElementById('modal').classList.remove('show');
+}
+
+function closeModal(){ goBack(); }
 </script>
 
 </body>
