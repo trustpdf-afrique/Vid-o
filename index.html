@@ -3,232 +3,209 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Zakaria TV - Legacy</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<title>StoryVault Afrique & Crime - Mobile</title>
 <style>
-body {margin:0; font-family:'Segoe UI', Tahoma, sans-serif; background:#f4f4f9; color:#333;}
-header {text-align:center; padding:20px; background:#5e35b1; color:#fff; box-shadow:0 4px 8px rgba(0,0,0,0.2);}
-header h1 {font-size:2.5em; letter-spacing:3px; margin:0; font-weight:bold;}
-header h2 {font-size:1em; letter-spacing:2px; margin:0; font-weight:normal; opacity:0.8;}
-.container {padding:15px; display:flex; flex-wrap:wrap; justify-content:center; gap:15px;}
-.page-card, .media-card {
-  border-radius:25px; box-shadow:0 6px 15px rgba(0,0,0,0.25);
-  display:flex; align-items:center; justify-content:center; flex-direction:column;
-  cursor:pointer; text-align:center; transition:transform 0.3s, box-shadow 0.3s, opacity 0.3s;
-  opacity:0; animation:fadeIn 0.5s forwards;
-}
-.page-card {width:45%; min-width:140px; height:120px; font-weight:bold; font-size:1.1em; color:#fff;}
-.page-card i {font-size:1.8em; margin-bottom:8px;}
-.page-card:hover {transform:scale(1.05); box-shadow:0 8px 20px rgba(0,0,0,0.35);}
-.media-card {width:45%; min-width:140px; height:100px; font-weight:bold; font-size:0.95em; color:#fff; margin:10px 0;}
-.media-card:hover {transform:scale(1.03);}
-.btn {display:block; margin:5px auto; padding:8px 15px; font-size:0.9em; background:linear-gradient(90deg,#8e24aa,#d81b60); color:#fff; border:none; border-radius:15px; font-weight:bold; cursor:pointer; box-shadow:0 4px 12px rgba(0,0,0,0.25);}
-.btn:hover {background:linear-gradient(90deg,#d81b60,#8e24aa);}
-.back-btn {background:#333; color:#fff;}
-#modal {display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); overflow:auto; padding:10px; z-index:100; opacity:0; transition:opacity 0.4s;}
-#modal.show {display:block; opacity:1;}
-#modal .content {background:#fff; border-radius:25px; padding:20px; margin:50px auto; max-width:95%; position:relative; box-shadow:0 6px 20px rgba(0,0,0,0.4); transform:translateY(50px); transition:transform 0.4s;}
-#modal.show .content {transform:translateY(0);}
-#modal .close {position:absolute; top:10px; right:20px; font-size:2em; cursor:pointer; color:#333;}
-h2 {text-align:center; color:#5e35b1; margin-bottom:20px;}
-#modalBody {display:flex; overflow-x:auto; gap:15px; padding:10px;}
-.media-item {text-align:center; margin:10px 0; opacity:0; animation:fadeIn 0.6s forwards;}
-video, img {width:90%; border-radius:15px; margin-top:5px;}
-input[type=text] {width:85%; margin-top:5px; border-radius:10px; padding:5px;}
-@keyframes fadeIn {from {opacity:0; transform:translateY(20px);} to {opacity:1; transform:translateY(0);}}
-
-/* === GRILLE D’ÉPISODES === */
-.episodes-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 15px;
-  justify-items: center;
-  margin-top: 15px;
-}
-.episode-card {
-  width: 90%;
-  height: 110px;
-  border-radius: 25px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  font-weight: bold;
-  color: white;
-  box-shadow: 0 6px 15px rgba(0,0,0,0.25);
-  cursor: pointer;
-  transition: 0.3s;
-}
-.episode-card:hover {transform: scale(1.05);}
-.episode-center {
-  grid-column: span 2;
-  width: 60%;
-}
-
-/* Responsive mobile */
-@media (max-width: 500px) {
-  .episodes-grid {
-    grid-template-columns: 1fr;
-  }
-  .episode-center {
-    width: 90%;
-    grid-column: span 1;
-  }
-}
+  body {margin:0;font-family: 'Arial',sans-serif;background: linear-gradient(135deg,#e0f7fa,#f3e5f5);color:#333;}
+  header {text-align:center;padding:20px;background:linear-gradient(90deg,#6a1b9a,#8e24aa);color:#fff;font-size:2em;font-weight:bold;}
+  nav {display:flex;justify-content:space-around;flex-wrap:wrap;background:#ab47bc;padding:10px 0;box-shadow:0 4px 10px rgba(0,0,0,0.2);}
+  nav a {color:#fff;text-decoration:none;font-weight:bold;padding:10px 12px;border-radius:10px;margin:5px;text-align:center;flex:1 1 45%;transition:0.3s;}
+  nav a:hover {background:#8e24aa;transform:scale(1.05);}
+  .container {padding:15px;display:flex;flex-wrap:wrap;justify-content:center;gap:15px;}
+  .card {width:45%;min-width:140px;height:100px;background: linear-gradient(135deg,#f06292,#ba68c8);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:1em;border-radius:15px;box-shadow:0 4px 15px rgba(0,0,0,0.2);text-align:center;cursor:pointer;transition:0.3s;}
+  .card:hover {transform:scale(1.05);}
+  .episode-card {width:45%;min-width:140px;height:140px;margin:10px;border-radius:15px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:1em;text-align:center;color:#fff;cursor:pointer;transition:0.3s;animation: float 3s ease-in-out infinite;}
+  .episode-card:hover {transform:scale(1.05);}
+  @keyframes float {0%,100%{transform:translateY(0);}50%{transform:translateY(-5px);}}
+  .btn {display:block;margin:10px auto;padding:10px 20px;font-size:0.9em;background:linear-gradient(90deg,#8e24aa,#d81b60);color:#fff;border:none;border-radius:10px;font-weight:bold;cursor:pointer;transition:0.3s;}
+  .btn:hover {background:linear-gradient(90deg,#d81b60,#8e24aa);}
+  #episodeModal {display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);overflow:auto;animation: fadeIn 0.3s ease;padding:10px;}
+  #episodeModal .modal-content {background:#fff;color:#000;border-radius:20px;padding:15px;margin:50px auto;max-width:95%;box-shadow:0 5px 20px rgba(0,0,0,0.3);position:relative;}
+  #episodeModal .close {position:absolute;top:10px;right:20px;font-size:1.8em;cursor:pointer;color:#333;}
+  @keyframes fadeIn {from{opacity:0;} to{opacity:1;}}
+  .episode-page h2 {margin-bottom:15px;color:#6a1b9a;text-align:center;}
+  .media-item {text-align:center;margin:10px 0;}
+  video,img {width:90%;border-radius:10px;margin-top:5px;}
 </style>
 </head>
 <body>
 
-<header>
-  <h1>ZAKARIA TV</h1>
-  <h2>legacy</h2>
-</header>
+<header>📚 StoryVault Afrique & Crime</header>
+<nav>
+  <a href="#afrique">🌍 Afrique de l’Ouest</a>
+  <a href="#revolutions">Révolutions</a>
+  <a href="#royaumes">Royaumes</a>
+  <a href="#decolonisation">Décolonisation</a>
+  <a href="#crime">TRUE CRIME & MYSTÈRES</a>
+</nav>
 
-<div class="container" id="mainPages">
-  <div class="page-card" style="background:#f06292" onclick="openSection('Afrique de l’Ouest','#f06292')"><i class="fas fa-globe-africa"></i>🌍 Afrique de l’Ouest</div>
-  <div class="page-card" style="background:#26a69a" onclick="openSection('Royaumes & Empires','#26a69a')"><i class="fas fa-chess-rook"></i>Royaumes & Empires</div>
-  <div class="page-card" style="background:#ffb74d" onclick="openSection('Décolonisation','#ffb74d')"><i class="fas fa-landmark"></i>Décolonisation</div>
-  <div class="page-card" style="background:#9575cd" onclick="openSection('Révolutions','#9575cd')"><i class="fas fa-flag"></i>Révolutions</div>
-  <div class="page-card" style="background:#ff7043" onclick="openSection('TRUE CRIME & MYSTÈRES','#ff7043')"><i class="fas fa-user-secret"></i>TRUE CRIME & MYSTÈRES</div>
-</div>
+<!-- Afrique de l’Ouest -->
+<section id="afrique" class="container">
+  <h2>🌍 Afrique de l’Ouest - Pays</h2>
+  <div class="card" onclick="openEpisodes('Bénin')">Bénin</div>
+  <div class="card" onclick="openEpisodes('Burkina Faso')">Burkina Faso</div>
+  <div class="card" onclick="openEpisodes('Cap-Vert')">Cap-Vert</div>
+  <div class="card" onclick="openEpisodes('Côte d’Ivoire')">Côte d’Ivoire</div>
+  <div class="card" onclick="openEpisodes('Gambie')">Gambie</div>
+  <div class="card" onclick="openEpisodes('Ghana')">Ghana</div>
+  <div class="card" onclick="openEpisodes('Guinée')">Guinée</div>
+  <div class="card" onclick="openEpisodes('Guinée-Bissau')">Guinée-Bissau</div>
+  <div class="card" onclick="openEpisodes('Liberia')">Liberia</div>
+  <div class="card" onclick="openEpisodes('Mali')">Mali</div>
+  <div class="card" onclick="openEpisodes('Niger')">Niger</div>
+  <div class="card" onclick="openEpisodes('Nigeria')">Nigeria</div>
+  <div class="card" onclick="openEpisodes('Sénégal')">Sénégal</div>
+  <div class="card" onclick="openEpisodes('Sierra Leone')">Sierra Leone</div>
+  <div class="card" onclick="openEpisodes('Togo')">Togo</div>
+</section>
 
-<div id="modal">
-  <div class="content" id="modalContent">
-    <span class="close" onclick="closeModal()">&times;</span>
-    <button class="btn back-btn" id="backBtn" onclick="goBack()">⬅️ Retour</button>
-    <h2 id="modalTitle"></h2>
-    <div id="modalBody"></div>
+<!-- Révolutions -->
+<section id="revolutions" class="container">
+  <h2>Les Révolutions</h2>
+  <div class="card" onclick="openOtherEpisodes('Révolution 1')">Épisode 1</div>
+  <div class="card" onclick="openOtherEpisodes('Révolution 2')">Épisode 2</div>
+  <div class="card" onclick="openOtherEpisodes('Révolution 3')">Épisode 3</div>
+</section>
+
+<!-- Royaumes & Empires -->
+<section id="royaumes" class="container">
+  <h2>Royaumes & Empires</h2>
+  <div class="card" onclick="openOtherEpisodes('Empire 1')">Épisode 1</div>
+  <div class="card" onclick="openOtherEpisodes('Empire 2')">Épisode 2</div>
+  <div class="card" onclick="openOtherEpisodes('Empire 3')">Épisode 3</div>
+</section>
+
+<!-- Décolonisation -->
+<section id="decolonisation" class="container">
+  <h2>Décolonisation</h2>
+  <div class="card" onclick="openOtherEpisodes('Décolonisation 1')">Épisode 1</div>
+  <div class="card" onclick="openOtherEpisodes('Décolonisation 2')">Épisode 2</div>
+  <div class="card" onclick="openOtherEpisodes('Décolonisation 3')">Épisode 3</div>
+</section>
+
+<!-- TRUE CRIME & MYSTÈRES RÉELS -->
+<section id="crime" class="container">
+  <h2>TRUE CRIME & MYSTÈRES RÉELS - ZAKARIA TV</h2>
+  <div class="card" onclick="openCrimePage('🔪 Crimes Célèbres')">🔪 Crimes Célèbres</div>
+  <div class="card" onclick="openCrimePage('👻 Mystères Non Résolus')">👻 Mystères Non Résolus</div>
+  <div class="card" onclick="openCrimePage('🕵🏾 Disparitions Étranges')">🕵🏾 Disparitions Étranges</div>
+  <div class="card" onclick="openCrimePage('🏚️ Histoires Terrifiantes')">🏚️ Histoires Terrifiantes</div>
+  <div class="card" onclick="openCrimePage('📰 Affaires Insolites')">📰 Affaires Insolites</div>
+</section>
+
+<!-- Modal -->
+<div id="episodeModal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal('episodeModal')">&times;</span>
+    <h2 id="episodeTitle"></h2>
+    <div class="episode-page" id="episodeContent"></div>
   </div>
 </div>
 
 <script>
-let db;
-let historyStack=[];
-const sections = {
-  'Afrique de l’Ouest':['Bénin','Burkina Faso','Cap-Vert','Côte d’Ivoire','Gambie','Ghana','Guinée','Guinée-Bissau','Liberia','Mali','Niger','Nigeria','Sénégal','Sierra Leone','Togo'],
-  'Royaumes & Empires':['Épisode 1','Épisode 2','Épisode 3','Épisode 4','Épisode 5'],
-  'Décolonisation':['Épisode 1','Épisode 2','Épisode 3','Épisode 4','Épisode 5'],
-  'Révolutions':['Épisode 1','Épisode 2','Épisode 3','Épisode 4','Épisode 5'],
-  'TRUE CRIME & MYSTÈRES':['🔪 Crimes Célèbres','👻 Mystères Non Résolus','🕵🏾 Disparitions Étranges','🏚️ Histoires Terrifiantes','📰 Affaires Insolites']
-};
-const episodeColors=['#ff8a65','#4db6ac','#ba68c8','#ffd54f','#7986cb','#f06292','#26a69a','#ff7043','#9575cd','#d32f2f'];
+let mediaStore = {};
 
-/* === INIT INDEXEDDB === */
-const request = indexedDB.open("ZakariaTV",1);
-request.onupgradeneeded = function(e){
-  db = e.target.result;
-  db.createObjectStore("mediaStore",{keyPath:"id",autoIncrement:true});
-};
-request.onsuccess = function(e){db=e.target.result; loadAllMedia();};
-request.onerror = function(e){console.error("DB Error",e);};
-
-let mediaCache = {}; 
-
-/* === FONCTIONS === */
-function openSection(title,color){
-  historyStack.push(()=>showMainPages());
-  document.getElementById('modalTitle').innerText = title;
-  document.getElementById('modalContent').style.background = color;
-  const container = document.getElementById('modalBody');
-  container.innerHTML = "";
-  container.className = "episodes-grid"; // applique la grille
-  sections[title].forEach((ep,i)=>{
-    const div = document.createElement('div');
-    div.className = "episode-card";
-    div.style.background = episodeColors[i % episodeColors.length];
-    div.innerText = ep;
-    if(i===4) div.classList.add("episode-center");
-    div.onclick = ()=>openEpisodePage(title,ep,color);
+// Afrique de l’Ouest et autres sections déjà existantes
+function openEpisodes(country){
+  document.getElementById('episodeTitle').innerText = country + " - Épisodes";
+  const container=document.getElementById('episodeContent');
+  container.innerHTML="";
+  const colors=['#ff6f61','#6fcf97','#56ccf2','#f7b731','#9b59b6'];
+  for(let i=1;i<=5;i++){
+    let div=document.createElement('div');
+    div.className="episode-card";
+    div.style.background=`linear-gradient(135deg, ${colors[i-1]}, #fff)`;
+    div.innerText="Épisode "+i;
+    div.onclick=()=>showMediaPage(country+" - Épisode "+i);
     container.appendChild(div);
-  });
-  document.getElementById('mainPages').style.display='none';
-  document.getElementById('modal').classList.add('show');
+  }
+  document.getElementById('episodeModal').style.display="block";
 }
 
-function openEpisodePage(section,episode,color){
-  historyStack.push(()=>openSection(section,color));
-  document.getElementById('modalTitle').innerText=episode;
-  document.getElementById('modalContent').style.background=color;
-  const container=document.getElementById('modalBody'); container.innerHTML="";
-  container.style.display='block';
-  container.innerHTML=`
+function openOtherEpisodes(episode){
+  document.getElementById('episodeTitle').innerText=episode;
+  const container=document.getElementById('episodeContent');
+  container.innerHTML=`<h2>${episode}</h2>`;
+  if(!mediaStore[episode]) mediaStore[episode]={videos:[]};
+  for(let i=1;i<=3;i++){
+    let div=document.createElement('div');
+    div.className='episode-card';
+    div.style.background=`linear-gradient(135deg,#ff8c42,#ff3d00)`;
+    div.innerText="Vidéo "+i;
+    div.onclick=()=>showVideoOnly(episode,i);
+    container.appendChild(div);
+  }
+  document.getElementById('episodeModal').style.display="block";
+}
+
+// Crime & Mystères section
+function openCrimePage(page){
+  document.getElementById('episodeTitle').innerText = page;
+  const container=document.getElementById('episodeContent');
+  container.innerHTML="";
+  for(let i=1;i<=5;i++){
+    let div=document.createElement('div');
+    div.className='episode-card';
+    div.style.background=`linear-gradient(135deg,#ff5722,#e91e63)`;
+    div.innerText="Épisode "+i;
+    div.onclick=()=>showMediaPage(page+" - Épisode "+i);
+    container.appendChild(div);
+  }
+  document.getElementById('episodeModal').style.display="block";
+}
+
+// Gestion médias
+function showMediaPage(title){
+  if(!mediaStore[title]) mediaStore[title]={videos:[],images:[]};
+  const container=document.getElementById('episodeContent');
+  container.innerHTML=`<h2>${title}</h2>
     <button class="btn" onclick="document.getElementById('videoInput').click()">Ajouter Vidéo</button>
-    <input type="file" id="videoInput" accept="video/*" style="display:none" onchange="addMedia('${episode}','video',this.files[0])">
+    <input type="file" id="videoInput" accept="video/*" onchange="addVideo('${title}',this.files[0])">
     <button class="btn" onclick="document.getElementById('imageInput').click()">Ajouter Image</button>
-    <input type="file" id="imageInput" accept="image/*" style="display:none" onchange="addMedia('${episode}','image',this.files[0])">
-    <div id="mediaList"></div>
-  `;
+    <input type="file" id="imageInput" accept="image/*" onchange="addImage('${title}',this.files[0])">
+    <div id="mediaList"></div>`;
+  renderMedia(title);
+}
+
+function addVideo(title,file){ if(file){ mediaStore[title].videos.push(file); renderMedia(title); } }
+function addImage(title,file){ if(file){ mediaStore[title].images.push(file); renderMedia(title); } }
+
+function renderMedia(title){
+  const container=document.getElementById('mediaList');
+  container.innerHTML="";
+  mediaStore[title].videos.forEach((vid,i)=>{
+    const div=document.createElement('div'); div.className='media-item';
+    div.innerHTML=`<video controls src="${URL.createObjectURL(vid)}"></video>
+      <br><button class="btn" onclick="removeMedia('${title}','video',${i})">Retirer Vidéo</button>`;
+    container.appendChild(div);
+  });
+  mediaStore[title].images.forEach((img,i)=>{
+    const div=document.createElement('div'); div.className='media-item';
+    div.innerHTML=`<img src="${URL.createObjectURL(img)}"><br>
+      <button class="btn" onclick="removeMedia('${title}','image',${i})">Retirer Image</button>`;
+    container.appendChild(div);
+  });
+}
+
+function showVideoOnly(episode,i){
+  if(!mediaStore[episode]) mediaStore[episode]={videos:[]};
+  const container=document.getElementById('episodeContent');
+  container.innerHTML=`<h2>${episode} - Vidéo ${i}</h2>
+    <button class="btn" onclick="document.getElementById('videoInputOther').click()">Ajouter Vidéo</button>
+    <input type="file" id="videoInputOther" accept="video/*" onchange="addVideo('${episode}',this.files[0])">
+    <div id="mediaList"></div>`;
   renderMedia(episode);
 }
 
-function addMedia(episode,type,file){
-  if(!file) return;
-  const reader = new FileReader();
-  reader.onload = function(e){
-    const dataURL = e.target.result;
-    const tx = db.transaction("mediaStore","readwrite");
-    const store = tx.objectStore("mediaStore");
-    store.add({episode, type, data:dataURL, name:file.name});
-    tx.oncomplete = ()=>{ loadAllMedia(); };
-  };
-  reader.readAsDataURL(file);
+function removeMedia(title,type,index){
+  const item=mediaStore[title][type+'s'][index];
+  const url=URL.createObjectURL(item);
+  const a=document.createElement('a'); a.href=url; a.download=(type==='video'?'video.mp4':'image.png'); a.click();
+  mediaStore[title][type+'s'].splice(index,1);
+  renderMedia(title);
 }
 
-function loadAllMedia(){
-  const tx = db.transaction("mediaStore","readonly");
-  const store = tx.objectStore("mediaStore");
-  const request = store.getAll();
-  request.onsuccess = function(e){
-    mediaCache = {};
-    e.target.result.forEach(item=>{
-      if(!mediaCache[item.episode]) mediaCache[item.episode]=[];
-      mediaCache[item.episode].push(item);
-    });
-    renderMedia(document.getElementById('modalTitle').innerText);
-  };
-}
-
-function renderMedia(episode){
-  const container=document.getElementById('mediaList');
-  if(!container) return;
-  container.innerHTML="";
-  const items = mediaCache[episode] || [];
-  items.forEach(item=>{
-    const div = document.createElement('div');
-    div.className="media-item";
-    if(item.type==="video") div.innerHTML = `<video controls src="${item.data}"></video><br>
-      <input type="text" value="${item.name}" onchange="renameMedia(${item.id},this.value)">
-      <button class="btn" onclick="removeMedia(${item.id},'${episode}')">Retirer Vidéo</button>`;
-    else if(item.type==="image") div.innerHTML = `<img src="${item.data}"><br>
-      <input type="text" value="${item.name}" onchange="renameMedia(${item.id},this.value)">
-      <button class="btn" onclick="removeMedia(${item.id},'${episode}')">Retirer Image</button>`;
-    container.appendChild(div);
-  });
-}
-
-function renameMedia(id,newName){
-  const tx = db.transaction("mediaStore","readwrite");
-  const store = tx.objectStore("mediaStore");
-  const req = store.get(id);
-  req.onsuccess = function(e){
-    const data = e.target.result;
-    data.name = newName;
-    store.put(data);
-    loadAllMedia();
-  };
-}
-
-function removeMedia(id,episode){
-  const tx = db.transaction("mediaStore","readwrite");
-  const store = tx.objectStore("mediaStore");
-  store.delete(id);
-  tx.oncomplete = ()=>{ loadAllMedia(); };
-}
-
-function goBack(){ if(historyStack.length>0){ const last=historyStack.pop(); last(); } else showMainPages(); }
-function showMainPages(){ document.getElementById('mainPages').style.display='flex'; document.getElementById('modal').classList.remove('show'); }
-function closeModal(){ goBack(); }
+function closeModal(id){ document.getElementById(id).style.display="none"; }
 </script>
 
 </body>
-</html>
+  </html>
